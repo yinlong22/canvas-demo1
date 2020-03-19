@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>画板</title>
+    <link rel="stylesheet" href="style.css">
+
+</head>
+
+<body>
+    <canvas id="canvas" width="100" height="100"></canvas>
+    <script>
+        //画线
+        let canvas = document.getElementById("canvas");
+        //获取文档高度宽度
+        canvas.width = document.documentElement.clientWidth
+        canvas.height = document.documentElement.clientHeight
+        //canvas高宽等于获取文档的高宽
+        let ctx = canvas.getContext("2d");
+        ctx.fillStyle = "black";
+        ctx.strokeStyle = 'none'
+
+        let painting = false
+
+        var isTouchDevice = 'ontouchstart' in
+            document.documentElement;
+        if (isTouchDevice) {
+            canvas.ontouchmove = (e) => {
+                let x = e.touches[0].clientX
+                let y = e.touches[0].clientY
+                console.log(x, y)
+                ctx.beginPath();
+                ctx.arc(x, y, 10, 0, 2 * Math.PI);
+                ctx.stroke();
+                ctx.fill();
+            }
+        } else {
+            canvas.onmousedown = () => {
+                painting = true
+            }
+            canvas.onmousemove = (e) => {
+                if (painting === true) {
+                    //console.log(e.clientX)
+                    //console.log(e.clientY)
+                    //获取鼠标电机的宽高
+                    //  ctx.fillRect(e.clientX - 5, e.clientY - 5, 10, 10);
+                    //图像位置和大小
+                    ctx.beginPath();
+                    //ctx.arc(75, 75, 50, 0, 2 * Math.PI)
+                    //圆的圆心，半径 0到2pi的角度
+                    ctx.arc(e.clientX, e.clientY, 10, 0, 2 * Math.PI);
+                    ctx.stroke();
+                    ctx.fill();
+
+                }
+            }
+            canvas.onmouseup = () => {
+                painting = false
+            }
+
+        }
+
+
+
+    </script>
+</body>
+
+</html>
